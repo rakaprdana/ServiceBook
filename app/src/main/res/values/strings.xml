@@ -3,4 +3,11 @@
     <string name="txt_cari_pelanggan">Cari Pelanggan</string>
     <string name="txt_semua_kategory">Semua Kategory</string>
     <string name="txt_list_pekerjaan">List Pekerjaan</string>
+    <string name="txt_service_book">Service Book</string>
+    <string name="txt_tugas_baru">Tugas Baru</string>
+    <string name="txt_nama_pelanggan">Nama Pelanggan</string>
+    <string name="txt_nomor_hp">Nomor HP</string>
+    <string name="txt_kategori_produk">Kategori Produk</string>
+    <string name="txt_deskripsi_keluhan">Deskripsi Keluhan</string>
+    <string name="txt_simpan">Simpan</string>
 </resources>
