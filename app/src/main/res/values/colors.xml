@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#0f172b</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mainColor">#00796B</color>
+    <color name="colorInputBackground">#E1F5EE</color>
+    <color name="colorButtonBackground">#04342C</color>
+    <color name="lightGreen">#00efd3</color>
+    <color name="accepted">#D3D1C7</color>
+    <color name="onProgress">#FAC775</color>
+    <color name="finish">#9FE1CB</color>
 </resources>

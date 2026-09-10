@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Service Book</string>
+    <string name="txt_cari_pelanggan">Cari Pelanggan</string>
+    <string name="txt_semua_kategory">Semua Kategory</string>
+    <string name="txt_list_pekerjaan">List Pekerjaan</string>
 </resources>
