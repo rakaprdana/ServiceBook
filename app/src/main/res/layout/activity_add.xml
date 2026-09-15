@@ -100,13 +100,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/txt_kategori_produk"
+            android:text="@string/txt_jenis_barang"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_nomor_hp" />
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spinner_kategory"
+            android:id="@+id/spinner_jenis_barang"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginTop="5dp"
@@ -128,7 +128,7 @@
             android:text="@string/txt_deskripsi_keluhan"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinner_kategory" />
+            app:layout_constraintTop_toBottomOf="@id/spinner_jenis_barang" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_deskripsi"
