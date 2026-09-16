@@ -2,6 +2,7 @@
     <string name="app_name">Service Book</string>
     <string name="txt_cari_pelanggan">Cari Pelanggan</string>
     <string name="txt_semua_status">Semua Status</string>
+    <string name="txt_semua_produk">Semua Produk</string>
     <string name="txt_list_pekerjaan">List Pekerjaan</string>
     <string name="txt_service_book">Service Book</string>
     <string name="txt_tugas_baru">Tugas Baru</string>

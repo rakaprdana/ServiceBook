@@ -1,5 +1,7 @@
 package com.example.servicebook.adapter
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.servicebook.databinding.ItemListPekerjaanBinding
@@ -13,6 +15,25 @@ class PekerjaanAdapter(
 ) : RecyclerView.Adapter<PekerjaanAdapter.PekerjaanViewHolder>() {
     private var currentListJob = mList
     private var currentListState = selectedListState
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PekerjaanViewHolder {
+        val view =
+            ItemListPekerjaanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PekerjaanViewHolder(view)
+    }
+
+    override fun onBindViewHolder(
+        holder: PekerjaanViewHolder,
+        position: Int
+    ) {
+        holder.bind(currentListJob[position], currentListState, onRemoveJob)
+    }
+
+    override fun getItemCount(): Int {
+        return currentListJob.size
+    }
 
 
     class PekerjaanViewHolder(private val itemJobViewBinding: ItemListPekerjaanBinding) :
@@ -33,11 +54,21 @@ class PekerjaanAdapter(
                     item.status.color
                 )
             )
-            itemJobViewBinding.btnRemove.isVisible = currentLisState== ListJobState.REMOVE
+            itemJobViewBinding.btnRemove.isVisible = currentLisState == ListJobState.REMOVE
             itemJobViewBinding.btnRemove.setOnClickListener {
                 onRemoveJob(item.id)
             }
 
         }
+    }
+
+    internal fun setListState(selectedListState: ListJobState){
+        currentListState = selectedListState
+        notifyDataSetChanged()
+    }
+
+    internal fun refreshList(list: List<PekerjaanData>){
+        currentListJob = list
+        notifyDataSetChanged()
     }
 }
