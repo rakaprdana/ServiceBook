@@ -38,7 +38,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         nameClient: String?,
         phoneNumber: String?,
         product: String?,
-        onStatus: String?,
+//        onStatus: String?,
         description: String?
     ) {
         val db = this.writableDatabase
@@ -46,7 +46,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         values.put(CLIENT_COL, nameClient)
         values.put(PHONE_COL, phoneNumber)
         values.put(PRODUCT_COL, product)
-        values.put(STATUS_COL, onStatus)
+//        values.put(STATUS_COL, onStatus)
         values.put(DESCRIPTION_COL, description)
 
         db.insert(TABLE_NAME, null, values)

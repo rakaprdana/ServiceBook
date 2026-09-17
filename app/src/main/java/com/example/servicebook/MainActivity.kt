@@ -1,5 +1,6 @@
 package com.example.servicebook
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,14 @@ class MainActivity : AppCompatActivity() {
 
         setListProduct()
 
+        bindingDashboard.ivTambah.setOnClickListener {
+            navigateToAddJob()
+        }
+    }
+
+    private fun     navigateToAddJob(){
+        val intent = Intent(this, AddJobActivity::class.java)
+        startActivityForResult(intent, 200)
     }
 
     fun setListProduct() {
