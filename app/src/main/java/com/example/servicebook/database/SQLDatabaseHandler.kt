@@ -12,10 +12,10 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
     companion object {
         private const val DB_NAME = "serviceBookDB"
         private const val TABLE_NAME = "pekerjaan"
-        private const val DB_VERSION = 1
+        private const val DB_VERSION = 2
         private const val ID_COL = "id"
         private const val CLIENT_COL = "client"
-        private const val PHONE_COL = "phone number"
+        private const val PHONE_COL = "phone_number"
         private const val PRODUCT_COL = "product"
         private const val STATUS_COL = "status"
         private const val DESCRIPTION_COL = "description"
@@ -38,15 +38,15 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         nameClient: String?,
         phoneNumber: String?,
         product: String?,
-//        onStatus: String?,
-        description: String?
+        description: String?,
+        status: Status = Status.DITERIMA,
     ) {
         val db = this.writableDatabase
         val values = ContentValues()
         values.put(CLIENT_COL, nameClient)
         values.put(PHONE_COL, phoneNumber)
         values.put(PRODUCT_COL, product)
-//        values.put(STATUS_COL, onStatus)
+        values.put(STATUS_COL, status.name)
         values.put(DESCRIPTION_COL, description)
 
         db.insert(TABLE_NAME, null, values)
@@ -101,8 +101,9 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
 
             val setProduct = ListProduct.values().find { it.nameProduct == product }
             val onStatus = Status.values().find { it.name == status }
-            if (product != null &&onStatus != null) {
-                jobData = PekerjaanData(jobId, nameClient, phoneNumber, setProduct, onStatus, description)
+            if (product != null && onStatus != null) {
+                jobData =
+                    PekerjaanData(jobId, nameClient, phoneNumber, setProduct, onStatus, description)
             }
         }
         cursorJob.close()
@@ -117,7 +118,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
 
     override fun onUpgrade(
         db: SQLiteDatabase?,
-        oldVerstion: Int,
+        oldVersion: Int,
         newVersion: Int
     ) {
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")

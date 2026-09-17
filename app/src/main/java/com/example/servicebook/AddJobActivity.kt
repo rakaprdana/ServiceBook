@@ -41,6 +41,10 @@ class AddJobActivity : AppCompatActivity() {
             setResult(200, Intent())
             finish()
         }
+
+        bindingAddJobActivity.ivKembali.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun setSpinnerListProduct(){

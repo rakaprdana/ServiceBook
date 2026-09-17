@@ -5,6 +5,6 @@ data class PekerjaanData(
     var nameClient: String,
     var phoneNumber: String,
     var listProduct: ListProduct?,
-    var status: Status,
+    var status: Status = Status.DITERIMA,
     var description: String
 )
