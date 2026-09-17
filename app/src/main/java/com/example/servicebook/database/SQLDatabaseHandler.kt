@@ -4,9 +4,12 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.servicebook.models.ListProduct
 import com.example.servicebook.models.PekerjaanData
 import com.example.servicebook.models.Status
+import java.time.LocalDate
 
 class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
     companion object {
@@ -14,6 +17,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         private const val TABLE_NAME = "pekerjaan"
         private const val DB_VERSION = 2
         private const val ID_COL = "id"
+        private const val DATE_COL = "date"
         private const val CLIENT_COL = "client"
         private const val PHONE_COL = "phone_number"
         private const val PRODUCT_COL = "product"
@@ -26,6 +30,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         val query =
             ("CREATE TABLE " + TABLE_NAME +
                     " (" + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    DATE_COL + " TEXT," +
                     CLIENT_COL + " TEXT," +
                     PHONE_COL + " TEXT," +
                     PRODUCT_COL + " TEXT," +
@@ -39,10 +44,12 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         phoneNumber: String?,
         product: String?,
         description: String?,
+        date: LocalDate,
         status: Status = Status.DITERIMA,
     ) {
         val db = this.writableDatabase
         val values = ContentValues()
+        values.put(DATE_COL, date.toEpochDay())
         values.put(CLIENT_COL, nameClient)
         values.put(PHONE_COL, phoneNumber)
         values.put(PRODUCT_COL, product)
@@ -53,27 +60,37 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         db.close()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getJob(): ArrayList<PekerjaanData> {
         val db = this.readableDatabase
         val cursorJob = db.rawQuery("SELECT * FROM $TABLE_NAME", null)
         val jobList: ArrayList<PekerjaanData> = arrayListOf()
 
+        val idxId = cursorJob.getColumnIndexOrThrow(ID_COL)
+        val idxDate = cursorJob.getColumnIndexOrThrow(DATE_COL)
+        val idxClient = cursorJob.getColumnIndexOrThrow(CLIENT_COL)
+        val idxPhone = cursorJob.getColumnIndexOrThrow(PHONE_COL)
+        val idxProduct = cursorJob.getColumnIndexOrThrow(PRODUCT_COL)
+        val idxStatus = cursorJob.getColumnIndexOrThrow(STATUS_COL)
+        val idxDesc = cursorJob.getColumnIndexOrThrow(DESCRIPTION_COL)
+
         //Checking cursor data
         if (cursorJob.moveToFirst()) {
 
             do {
-                val product = ListProduct.values().find { it.nameProduct == cursorJob.getString(3) }
-                val status = Status.values().find { it.name == cursorJob.getString(4) }
+                val product = ListProduct.values().find { it.nameProduct == cursorJob.getString(idxProduct) }
+                val status = Status.values().find { it.name == cursorJob.getString(idxStatus) }
 
                 if (product != null && status != null) {
                     jobList.add(
                         PekerjaanData(
-                            cursorJob.getInt(0),
-                            cursorJob.getString(1),
-                            cursorJob.getString(2),
-                            product,
-                            status,
-                            cursorJob.getString(5)
+                            id = cursorJob.getInt(idxId),
+                            date = LocalDate.ofEpochDay(cursorJob.getLong(idxDate)),
+                            nameClient = cursorJob.getString(idxClient),
+                            phoneNumber = cursorJob.getString(idxPhone),
+                            listProduct = product,
+                            status = status,
+                            description = cursorJob.getString(idxDesc)
                         )
                     )
                 }
@@ -84,6 +101,7 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         return jobList
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getJobById(id: Int): PekerjaanData? {
         val db = this.readableDatabase
         val cursorJob =
@@ -93,17 +111,26 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         //Checking cursor data
         if (cursorJob.moveToFirst()) {
             val jobId = cursorJob.getInt(0)
-            val nameClient = cursorJob.getString(1)
-            val phoneNumber = cursorJob.getString(2)
-            val product = cursorJob.getString(3)
-            val status = cursorJob.getString(4)
-            val description = cursorJob.getString(5)
+            val date = LocalDate.ofEpochDay(cursorJob.getLong(1))
+            val nameClient = cursorJob.getString(2)
+            val phoneNumber = cursorJob.getString(3)
+            val product = cursorJob.getString(4)
+            val status = cursorJob.getString(5)
+            val description = cursorJob.getString(6)
 
             val setProduct = ListProduct.values().find { it.nameProduct == product }
             val onStatus = Status.values().find { it.name == status }
             if (product != null && onStatus != null) {
                 jobData =
-                    PekerjaanData(jobId, nameClient, phoneNumber, setProduct, onStatus, description)
+                    PekerjaanData(
+                        jobId,
+                        date,
+                        nameClient,
+                        phoneNumber,
+                        setProduct,
+                        onStatus,
+                        description
+                    )
             }
         }
         cursorJob.close()

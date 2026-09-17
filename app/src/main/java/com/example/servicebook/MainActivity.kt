@@ -1,9 +1,11 @@
 package com.example.servicebook
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ListPopupWindow
 import androidx.core.view.ViewCompat
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var resultCode = 200
 
     // Launcher for handle result from AddJobActivity
+    @RequiresApi(Build.VERSION_CODES.O)
     private val addJobLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (resultCode == 200) {
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -64,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateActionButtons() {
         val isEmpty = dbHandler.getJob().isEmpty()
 
@@ -77,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setJobList() {
         adapterListJob =
             PekerjaanAdapter(
@@ -90,17 +96,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun refreshAndRemove(position: Int) {
         dbHandler.deleteJob(position)
         adapterListJob.refreshList(dbHandler.getJob())
         updateActionButtons()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun navigateToAddJob() {
         val intent = Intent(this, AddJobActivity::class.java)
         addJobLauncher.launch(intent)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun setListProduct() {
         val listProduct = ListProduct.values().toList()
         adapterListProduct = ListProductAdapter(listProduct, selectedListProduct) { listProduct ->
@@ -114,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun refreshListProductAndJob(listProduct: ListProduct) {
         val listJob = if (listProduct == ListProduct.SEMUA_PRODUK) {
             dbHandler.getJob()

@@ -1,12 +1,16 @@
 package com.example.servicebook.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.servicebook.databinding.ItemListPekerjaanBinding
 import com.example.servicebook.models.ListJobState
 import com.example.servicebook.models.PekerjaanData
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class PekerjaanAdapter(
     mList: List<PekerjaanData>,
@@ -39,11 +43,13 @@ class PekerjaanAdapter(
     class PekerjaanViewHolder(private val itemJobViewBinding: ItemListPekerjaanBinding) :
         RecyclerView.ViewHolder(itemJobViewBinding.root) {
         fun bind(item: PekerjaanData, currentLisState: ListJobState, onRemoveJob: (Int) -> Unit) {
+            val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale("id", "ID"))
             itemJobViewBinding.tvNama.text = item.nameClient
             itemJobViewBinding.tvKategori.apply {
                 text = item.listProduct?.nameProduct
                 requestLayout()
             }
+            itemJobViewBinding.tvTanggal.text = item.date?.format(dateFormatter)
             itemJobViewBinding.tvStatus.apply {
                 text = item.status.name
                 requestLayout()
