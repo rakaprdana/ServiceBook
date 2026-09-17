@@ -143,6 +143,26 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         db.close()
     }
 
+    fun updateJob(
+        id: Int,
+        nameClient: String?,
+        phoneNumber: String?,
+        product: String?,
+        status: Status,
+        description: String?
+    ) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(CLIENT_COL, nameClient)
+        values.put(PHONE_COL, phoneNumber)
+        values.put(PRODUCT_COL, product)
+        values.put(STATUS_COL, status.name)
+        values.put(DESCRIPTION_COL, description)
+
+        db.update(TABLE_NAME, values, "id=?", arrayOf(id.toString()))
+        db.close()
+    }
+
     override fun onUpgrade(
         db: SQLiteDatabase?,
         oldVersion: Int,

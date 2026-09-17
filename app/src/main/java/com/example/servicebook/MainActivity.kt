@@ -69,6 +69,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        super.onResume()
+        refreshListProductAndJob(selectedListProduct)
+        updateActionButtons()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateActionButtons() {
         val isEmpty = dbHandler.getJob().isEmpty()
 
