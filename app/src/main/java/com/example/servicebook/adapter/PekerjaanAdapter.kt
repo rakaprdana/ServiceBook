@@ -15,7 +15,8 @@ import java.util.Locale
 class PekerjaanAdapter(
     mList: List<PekerjaanData>,
     selectedListState: ListJobState,
-    private val onRemoveJob: (Int) -> Unit
+    private val onRemoveJob: (Int) -> Unit,
+    private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<PekerjaanAdapter.PekerjaanViewHolder>() {
     private var currentListJob = mList
     private var currentListState = selectedListState
@@ -32,7 +33,7 @@ class PekerjaanAdapter(
         holder: PekerjaanViewHolder,
         position: Int
     ) {
-        holder.bind(currentListJob[position], currentListState, onRemoveJob)
+        holder.bind(currentListJob[position], currentListState, onRemoveJob, onItemClick)
     }
 
     override fun getItemCount(): Int {
@@ -42,7 +43,12 @@ class PekerjaanAdapter(
 
     class PekerjaanViewHolder(private val itemJobViewBinding: ItemListPekerjaanBinding) :
         RecyclerView.ViewHolder(itemJobViewBinding.root) {
-        fun bind(item: PekerjaanData, currentLisState: ListJobState, onRemoveJob: (Int) -> Unit) {
+        fun bind(
+            item: PekerjaanData,
+            currentLisState: ListJobState,
+            onRemoveJob: (Int) -> Unit,
+            onItemClick: (Int) -> Unit
+        ) {
             val dateFormatter = DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale("id", "ID"))
             itemJobViewBinding.tvNama.text = item.nameClient
             itemJobViewBinding.tvKategori.apply {
@@ -65,6 +71,11 @@ class PekerjaanAdapter(
                 onRemoveJob(item.id)
             }
 
+            itemJobViewBinding.root.setOnClickListener {
+                if (currentLisState == ListJobState.NORMAL) {
+                    onItemClick(item.id)
+                }
+            }
         }
     }
 

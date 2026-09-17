@@ -86,14 +86,26 @@ class MainActivity : AppCompatActivity() {
     private fun setJobList() {
         adapterListJob =
             PekerjaanAdapter(
-                dbHandler.getJob(), selectedListState
-            ) { positionToBeRemove ->
-                refreshAndRemove(positionToBeRemove)
-            }
+                dbHandler.getJob(), selectedListState,
+                onRemoveJob = { positionToBeRemove ->
+                    refreshAndRemove(positionToBeRemove)
+                },
+                onItemClick = { jobId ->
+                    navigateToJobDetail(jobId)
+                }
+            )
         bindingDashboard.rvListPekerjaan.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = adapterListJob
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun navigateToJobDetail(jobId: Int) {
+        val intent = Intent(this, DetailJobActivity::class.java).apply {
+            putExtra("JOB_ID", jobId)
+        }
+        startActivity(intent)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

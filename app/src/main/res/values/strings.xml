@@ -12,4 +12,6 @@
     <string name="txt_deskripsi_keluhan">Deskripsi Keluhan</string>
     <string name="txt_simpan">Simpan</string>
     <string name="txt_batal">Batal</string>
+    <string name="txt_detail_pekerjaan">Detail Pekerjaan</string>
+    <string name="txt_status">Status</string>
 </resources>
