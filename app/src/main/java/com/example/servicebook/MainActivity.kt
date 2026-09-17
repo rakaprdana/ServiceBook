@@ -7,10 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.ListPopupWindow
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.servicebook.adapter.ListProductAdapter
@@ -27,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapterListJob: PekerjaanAdapter
     private var selectedListProduct: ListProduct = ListProduct.SEMUA_PRODUK
     private var selectedListState: ListJobState = ListJobState.NORMAL
+    private var searchQuery: String = ""
     private var dbHandler: SQLDatabaseHandler = SQLDatabaseHandler(this)
     private var resultCode = 200
 
@@ -37,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == 200) {
                 selectedListState = ListJobState.NORMAL
                 adapterListJob.setListState(selectedListState)
-                refreshListProductAndJob(selectedListProduct)
+                refreshListProductAndJob()
                 updateActionButtons()
             }
         }
@@ -51,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         setListProduct()
         setJobList()
+        setSearchFunction()
         updateActionButtons()
 
         bindingDashboard.ivTambah.setOnClickListener {
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
-        refreshListProductAndJob(selectedListProduct)
+        refreshListProductAndJob()
         updateActionButtons()
     }
 
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         val listProduct = ListProduct.values().toList()
         adapterListProduct = ListProductAdapter(listProduct, selectedListProduct) { listProduct ->
             selectedListProduct = listProduct
-            refreshListProductAndJob(listProduct)
+            refreshListProductAndJob()
         }
 
         bindingDashboard.rvListProduk.apply {
@@ -143,11 +143,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun refreshListProductAndJob(listProduct: ListProduct) {
-        val listJob = if (listProduct == ListProduct.SEMUA_PRODUK) {
+    private fun setSearchFunction() {
+        bindingDashboard.etCariPelanggan.doOnTextChanged { text, _, _, _ ->
+            searchQuery = text.toString()
+            refreshListProductAndJob()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun refreshListProductAndJob() {
+        var listJob = if (selectedListProduct == ListProduct.SEMUA_PRODUK) {
             dbHandler.getJob()
         } else {
-            dbHandler.getJob().filter { it.listProduct == listProduct }
+            dbHandler.getJob().filter { it.listProduct == selectedListProduct }
+        }
+
+        if (searchQuery.isNotEmpty()) {
+            listJob = listJob.filter { it.nameClient.contains(searchQuery, ignoreCase = true) }
         }
 
         adapterListJob.refreshList(listJob)

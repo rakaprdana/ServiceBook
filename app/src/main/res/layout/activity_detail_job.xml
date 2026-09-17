@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/mainColor"
         android:paddingBottom="12dp"
+        android:paddingTop="28dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -182,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="48dp"
         android:background="@drawable/bg_button_rect"
         android:text="@string/txt_simpan"
         android:textAllCaps="false"
