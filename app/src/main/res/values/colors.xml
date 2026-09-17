@@ -6,6 +6,7 @@
     <color name="colorInputBackground">#E1F5EE</color>
     <color name="colorButtonBackground">#04342C</color>
     <color name="colorCardBackground">#EDEDED</color>
+    <color name="colorRedBackground">#C10202</color>
     <color name="lightGreen">#00efd3</color>
     <color name="accepted">#D3D1C7</color>
     <color name="onProgress">#FAC775</color>

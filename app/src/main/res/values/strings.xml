@@ -11,4 +11,5 @@
     <string name="txt_jenis_barang">Jenis Barang</string>
     <string name="txt_deskripsi_keluhan">Deskripsi Keluhan</string>
     <string name="txt_simpan">Simpan</string>
+    <string name="txt_batal">Batal</string>
 </resources>

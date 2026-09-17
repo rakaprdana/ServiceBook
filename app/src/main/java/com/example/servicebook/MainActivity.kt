@@ -30,9 +30,12 @@ class MainActivity : AppCompatActivity() {
 
     // Launcher for handle result from AddJobActivity
     private val addJobLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-            if(resultCode == 200){
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (resultCode == 200) {
+                selectedListState = ListJobState.NORMAL
+                adapterListJob.setListState(selectedListState)
                 refreshListProductAndJob(selectedListProduct)
+                updateActionButtons()
             }
         }
 
@@ -44,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         setListProduct()
         setJobList()
+        updateActionButtons()
 
         bindingDashboard.ivTambah.setOnClickListener {
             navigateToAddJob()
@@ -51,36 +55,48 @@ class MainActivity : AppCompatActivity() {
         bindingDashboard.ivHapus.setOnClickListener {
             selectedListState = ListJobState.REMOVE
             adapterListJob.setListState(selectedListState)
+            updateActionButtons()
+        }
+        bindingDashboard.btnBatal.setOnClickListener {
+            selectedListState = ListJobState.NORMAL
+            adapterListJob.setListState(selectedListState)
+            updateActionButtons()
         }
     }
 
-    private fun btnDeletedAdd(){
-        bindingDashboard.ivTambah.isVisible = true
-        bindingDashboard.ivHapus.isVisible =dbHandler.getJob().isNotEmpty()
+    private fun updateActionButtons() {
+        val isEmpty = dbHandler.getJob().isEmpty()
+
+        if (isEmpty && selectedListState == ListJobState.REMOVE) {
+            selectedListState = ListJobState.NORMAL
+            adapterListJob.setListState(selectedListState)
+        }
+
+        bindingDashboard.ivHapus.isVisible = selectedListState == ListJobState.NORMAL && !isEmpty
+        bindingDashboard.btnBatal.isVisible = selectedListState == ListJobState.REMOVE
     }
+
 
     private fun setJobList() {
         adapterListJob =
             PekerjaanAdapter(
-            dbHandler.getJob(), selectedListState){positionToBeRemove ->
+                dbHandler.getJob(), selectedListState
+            ) { positionToBeRemove ->
                 refreshAndRemove(positionToBeRemove)
             }
         bindingDashboard.rvListPekerjaan.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL,false)
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = adapterListJob
         }
     }
 
-    private fun refreshAndRemove(position: Int){
+    private fun refreshAndRemove(position: Int) {
         dbHandler.deleteJob(position)
         adapterListJob.refreshList(dbHandler.getJob())
-
-        if(dbHandler.getJob().isNotEmpty()){
-            btnDeletedAdd()
-        }
+        updateActionButtons()
     }
 
-    private fun navigateToAddJob(){
+    private fun navigateToAddJob() {
         val intent = Intent(this, AddJobActivity::class.java)
         addJobLauncher.launch(intent)
     }

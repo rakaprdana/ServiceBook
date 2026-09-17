@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/dashboard"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,9 +22,9 @@
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/et_cari_pelanggan"
             android:layout_width="match_parent"
@@ -46,20 +46,37 @@
         android:text="@string/txt_list_pekerjaan"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/cl_top_dashboard"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_top_dashboard" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_hapus"
         android:layout_width="28sp"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_trash"
         android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_trash"
         app:layout_constraintBottom_toBottomOf="@id/tv_list_pekerjaan"
         app:layout_constraintEnd_toEndOf="@id/cl_top_dashboard"
         app:layout_constraintTop_toTopOf="@id/tv_list_pekerjaan"
 
         />
+
+    <TextView
+        android:id="@+id/btn_batal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button_rect"
+        android:backgroundTint="@color/colorRedBackground"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp"
+        android:text="@string/txt_batal"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tv_list_pekerjaan"
+        app:layout_constraintEnd_toEndOf="@id/cl_top_dashboard"
+        app:layout_constraintTop_toTopOf="@id/tv_list_pekerjaan"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_produk"
