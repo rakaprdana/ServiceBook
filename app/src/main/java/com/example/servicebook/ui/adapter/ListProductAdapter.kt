@@ -1,4 +1,4 @@
-package com.example.servicebook.adapter
+package com.example.servicebook.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

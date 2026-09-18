@@ -1,15 +1,11 @@
-package com.example.servicebook
+package com.example.servicebook.ui.add
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.servicebook.database.SQLDatabaseHandler
+import com.example.servicebook.data.local.SQLDatabaseHandler
 import com.example.servicebook.databinding.ActivityAddBinding
 import com.example.servicebook.models.ListProduct
 import java.time.LocalDate

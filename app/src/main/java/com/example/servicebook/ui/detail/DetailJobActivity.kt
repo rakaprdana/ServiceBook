@@ -1,13 +1,11 @@
-package com.example.servicebook
+package com.example.servicebook.ui.detail
 
-import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.servicebook.database.SQLDatabaseHandler
+import com.example.servicebook.data.local.SQLDatabaseHandler
 import com.example.servicebook.databinding.ActivityDetailJobBinding
 import com.example.servicebook.models.ListProduct
 import com.example.servicebook.models.PekerjaanData
@@ -17,7 +15,6 @@ class DetailJobActivity : AppCompatActivity() {
     private lateinit var bindingDetail: ActivityDetailJobBinding
     private val dbHandler: SQLDatabaseHandler = SQLDatabaseHandler(this)
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,7 +34,6 @@ class DetailJobActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun populateJobData(job: PekerjaanData) {
         bindingDetail.etNamaPelanggan.setText(job.nameClient)
         bindingDetail.etNomorHp.setText(job.phoneNumber)
@@ -76,7 +72,6 @@ class DetailJobActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun saveJobData(jobId: Int, products: List<ListProduct>, statuses: List<Status>) {
         val name = bindingDetail.etNamaPelanggan.text.toString().trim()
         val phone = bindingDetail.etNomorHp.text.toString().trim()

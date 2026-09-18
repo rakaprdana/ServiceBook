@@ -9,7 +9,3 @@ enum class Status(val label: String, @ColorRes val color: Int){
     DIKERJAKAN("Dikerjakan", R.color.onProgress),
     SELESAI("Selesai", R.color.finish)
 }
-
-enum class ListJobState{
-    NORMAL, REMOVE
-}

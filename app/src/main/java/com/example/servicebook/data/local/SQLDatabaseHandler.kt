@@ -1,4 +1,4 @@
-package com.example.servicebook.database
+package com.example.servicebook.data.local
 
 import android.content.ContentValues
 import android.content.Context
@@ -98,10 +98,10 @@ class SQLDatabaseHandler(context: Context?) : SQLiteOpenHelper(context, DB_NAME,
         }
 
         cursorJob.close()
+        db.close()
         return jobList
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getJobById(id: Int): PekerjaanData? {
         val db = this.readableDatabase
         val cursorJob =

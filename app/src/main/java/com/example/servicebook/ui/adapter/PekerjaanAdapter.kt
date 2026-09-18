@@ -1,9 +1,7 @@
-package com.example.servicebook.adapter
+package com.example.servicebook.ui.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.servicebook.databinding.ItemListPekerjaanBinding
